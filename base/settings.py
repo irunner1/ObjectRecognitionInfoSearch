@@ -10,6 +10,7 @@ logger = configure_logger(__name__)
 
 
 class Settings(BaseSettings):
+    google_url: str = "https://www.googleapis.com/customsearch/v1"
     api_key: str
     cx_code: str
 

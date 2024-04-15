@@ -7,7 +7,7 @@ logger = configure_logger(__name__)
 
 
 def search_info(object_name: str) -> dict | None:
-    """Search data with google api.
+    """Search data with Google api.
 
     Args:
         object_name: class name of recognized object
@@ -16,20 +16,18 @@ def search_info(object_name: str) -> dict | None:
         dict | None: founded data
     """
 
-    api_key = SETTINGS.api_key
-    url = "https://www.googleapis.com/customsearch/v1"
     params = {
-        "key": api_key,
+        "key": SETTINGS.api_key,
         "cx": SETTINGS.cx_code,
         "q": object_name,
     }
 
     try:
-        response = requests.get(url=url, params=params)
+        response = requests.get(url=SETTINGS.google_url, params=params)
     except Exception as error:
         logger.warning(
             "ERROR {error} with {data}; {url}".format(
-                error=error, data=object_name, url=url
+                error=error, data=object_name, url=SETTINGS.google_url
             )
         )
         return None
