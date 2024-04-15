@@ -1,0 +1,22 @@
+# Pycharm
+.idea
+__pycache__
+**/__pycache__
+.env
+
+# VS Code
+.venv/
+.vscode
+
+# Pytest cache
+.pytest_cache
+
+# Jupiter notebook checkpoints
+.ipynb_checkpoints/
+
+# Mypy cache
+.mypy_cache/
+
+/data
+/unused
+/model_data
