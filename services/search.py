@@ -1,7 +1,7 @@
 import requests
 
 from base.settings import SETTINGS
-from utils.logger import configure_logger
+from util.logger import configure_logger
 
 logger = configure_logger(__name__)
 
