@@ -1,2 +1,11 @@
-python-dotenv
+# requirements
+# Usage: pip install -r requirements.txt
+
+python-dotenv~=1.0.1
 pydantic_settings
+yolov5~=7.0.13
+opencv-python~=4.9.0.80
+pillow~=10.2.0
+torch
+requests~=2.31.0
+numpy~=1.26.4
