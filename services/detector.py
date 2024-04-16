@@ -4,6 +4,9 @@ import cv2
 import numpy as np
 
 np.random.seed(10)
+from util.logger import configure_logger
+
+logger = configure_logger(__name__)
 
 
 class Detector:
@@ -17,6 +20,8 @@ class Detector:
     """
 
     def __init__(self, video_path, config_path, model_path, classes_path) -> None:
+        self.classes_list = None
+        self.color_list = None
         self.video_path = video_path
         self.config_path = config_path
         self.model_path = model_path
@@ -27,9 +32,9 @@ class Detector:
         self.net.setInputMean((127.5, 127.5, 127.5))
         self.net.setInputSwapRB(True)
 
-        self.readClass()
+        self.read_class()
 
-    def readClass(self):
+    def read_class(self):
 
         with open(self.classes_path, "r") as f:
             self.classes_list = f.read().splitlines()
@@ -37,13 +42,12 @@ class Detector:
         self.color_list = np.random.uniform(
             low=0, high=255, size=(len(self.classes_list), 3)
         )
-        # print(self.classes_list)
 
-    def onVideo(self):
+    def on_video(self):
         cap = cv2.VideoCapture(self.video_path)
 
-        if cap.isOpened() == False:
-            print("Error opening file")
+        if not cap.isOpened():
+            logger.error("Error opening file")
             return
 
         (success, image) = cap.read()
@@ -73,6 +77,7 @@ class Detector:
                     displayText = "{label}: {conf:.2f}".format(
                         label=class_label, conf=class_confidence
                     )
+                    logger.info(f"class {displayText}")
 
                     x, y, w, h = bbox
                     cv2.rectangle(
@@ -82,16 +87,16 @@ class Detector:
                         color=class_color,
                         thickness=2,
                     )
-                    cv2.putText(
-                        image,
-                        displayText,
-                        (x, y - 10),
-                        cv2.FONT_HERSHEY_PLAIN,
-                        1,
-                        class_color,
-                        2,
-                    )
-            cv2.imshow("Result", image)
+                    # cv2.putText(
+                    #     image,
+                    #     displayText,
+                    #     (x, y - 10),
+                    #     cv2.FONT_HERSHEY_PLAIN,
+                    #     1,
+                    #     class_color,
+                    #     2,
+                    # )
+            cv2.imshow("Video object recognition and info search", image)
             key = cv2.waitKey(1) & 0xFF
             if key == ord("q"):
                 break
