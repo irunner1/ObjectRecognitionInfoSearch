@@ -3,20 +3,21 @@ import time
 import cv2
 import numpy as np
 
-np.random.seed(10)
+from services.search import search_info
 from util.logger import configure_logger
 
 logger = configure_logger(__name__)
+np.random.seed(10)
 
 
 class Detector:
     """Detect objects on video.
 
     Args:
-        self.video_path = Путь до файла с видео
-        self.config_path = Путь до настроек
-        self.model_path = Путь до модели
-        self.classes_path = Путь до классов
+        self.video_path: Path to video
+        self.config_path: Path to configuration
+        self.model_path: Path to model
+        self.classes_path: Path to classes data
     """
 
     def __init__(self, video_path, config_path, model_path, classes_path) -> None:
@@ -34,7 +35,8 @@ class Detector:
 
         self.read_class()
 
-    def read_class(self):
+    def read_class(self) -> None:
+        """Read classes from classes data."""
 
         with open(self.classes_path, "r") as f:
             self.classes_list = f.read().splitlines()
@@ -43,7 +45,9 @@ class Detector:
             low=0, high=255, size=(len(self.classes_list), 3)
         )
 
-    def on_video(self):
+    def on_video(self) -> None:
+        """Launch object tracking and info search."""
+
         cap = cv2.VideoCapture(self.video_path)
 
         if not cap.isOpened():
@@ -77,7 +81,15 @@ class Detector:
                     displayText = "{label}: {conf:.2f}".format(
                         label=class_label, conf=class_confidence
                     )
-                    logger.info(f"class {displayText}")
+                    logger.info("class {text}".format(text=displayText))
+                    data = search_info((class_label))
+                    logger.info(
+                        "Founded data: {title} \nlink: {link} \ndesctiption: {desc}".format(
+                            title=data[0]["title"],
+                            link=data[0]["link"],
+                            desc=data[0]["snippet"],
+                        )
+                    )
 
                     x, y, w, h = bbox
                     cv2.rectangle(

@@ -1,9 +1,16 @@
+"""Run project with object detection and searhing info."""
+
 import os
 
 from services.detector import Detector
+from util.logger import configure_logger
+
+logger = configure_logger(__name__)
 
 
-def main():
+def main() -> None:
+    """Launch objects detection on video."""
+
     video_path = "unused/test_videos/streets_nyc.mp4"  # 0 - vebcam
     config_path = os.path.join(
         "model_data",
@@ -12,6 +19,7 @@ def main():
     model_path = os.path.join("model_data", "frozen_inference_graph.pb")
     classes_path = os.path.join("model_data", "coco.names")
 
+    logger.info("settings loaded")
     detector = Detector(
         video_path=video_path,
         config_path=config_path,
