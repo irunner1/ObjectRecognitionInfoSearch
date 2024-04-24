@@ -3,20 +3,21 @@ import time
 import cv2
 import numpy as np
 
-np.random.seed(10)
+from services.search import search_info
 from util.logger import configure_logger
 
 logger = configure_logger(__name__)
+np.random.seed(10)
 
 
 class Detector:
     """Detect objects on video.
 
     Args:
-        self.video_path = Путь до файла с видео
-        self.config_path = Путь до настроек
-        self.model_path = Путь до модели
-        self.classes_path = Путь до классов
+        self.video_path = Путь к видео
+        self.config_path = Путь к настройкам
+        self.model_path = Путь к модели
+        self.classes_path = Путь к классам для распознания
     """
 
     def __init__(self, video_path, config_path, model_path, classes_path) -> None:
@@ -77,7 +78,15 @@ class Detector:
                     displayText = "{label}: {conf:.2f}".format(
                         label=class_label, conf=class_confidence
                     )
-                    logger.info(f"class {displayText}")
+                    logger.info("class {text}".format(text=displayText))
+                    data = search_info((class_label))
+                    logger.info(
+                        "Founded data: {title} \nlink: {link} \ndesctiption: {desc}".format(
+                            title=data[0]["title"],
+                            link=data[0]["link"],
+                            desc=data[0]["snippet"],
+                        )
+                    )
 
                     x, y, w, h = bbox
                     cv2.rectangle(
