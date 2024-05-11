@@ -3,10 +3,10 @@
 System for object detection and find information about detected object
 
 ## Установка и запуск
-### Установка
 
 При установке данных требований, запуск возможен только на cpu
 Для запуска на gpu нужно переустановить torch с актуальной версией
+При запуске система установит модель yolo. По умолчанию `yolov5x6u.pt`
 
 ```bash
 pip install -r requirements.txt # Установка зависимостей
@@ -21,8 +21,3 @@ api_key=''
 cx_code=''
 model_name='yolov5x6u'
 ```
-
-### Запуск
-
-Для работы системы нужно запустить скрипт `main.py`
-При запуске система установит модель yolo. По умолчанию `yolov5x6u.pt`

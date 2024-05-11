@@ -1,4 +1,5 @@
 import cv2
+from ultralytics import YOLO
 
 from services.search import search_info
 from util.logger import configure_logger
@@ -10,19 +11,37 @@ class Detector:
     """Detect objects on video.
 
     Args:
+        self.model: yolo model name
         self.video_path: Path to video. 0 - vebcam
-        self.model: yolo model
     """
 
-    def __init__(self, model, video_path) -> None:
-        self.model = model
+    def __init__(self, model_name: str, video_path: str) -> None:
+        self.model = self.load_model(model_name=model_name)
         self.video_path = video_path
-        self.model.conf = 0.5
+
+    def load_model(self, model_name: str) -> YOLO:
+        """Set up model for object detection.
+        If model not installed, it will be installed
+
+        Args:
+            model_name: name of yolo model, example: yolov5x6
+
+        Returns:
+            model: yolo model
+        """
+
+        model = YOLO("yolo/{name}.pt".format(name=model_name))
+        model.fuse()
+        model.conf = 0.5
+        logger.info("model loaded")
+        return model
 
     def on_video(self) -> None:
         """Launch object tracking and info search."""
 
-        cap = cv2.VideoCapture(self.video_path)
+        cap = cv2.VideoCapture(
+            self.video_path,
+        )
 
         if not cap.isOpened():
             logger.error("Error opening file")
@@ -56,5 +75,6 @@ class Detector:
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 logger.info("detection interrupted")
                 break
+
         cap.release()
         cv2.destroyAllWindows()
