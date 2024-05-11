@@ -1,3 +1,5 @@
+"""Detection module."""
+
 import cv2
 from ultralytics import YOLO
 
@@ -39,9 +41,7 @@ class Detector:
     def on_video(self) -> None:
         """Launch object tracking and info search."""
 
-        cap = cv2.VideoCapture(
-            self.video_path,
-        )
+        cap = cv2.VideoCapture(self.video_path)
 
         if not cap.isOpened():
             logger.error("Error opening file")
@@ -59,14 +59,14 @@ class Detector:
                 class_id = int(box.cls)
                 class_label = results[0].names[class_id]
                 logger.info(f"Detected class: {class_label}")
-                # data = search_info((class_label))
-                # logger.info(
-                #     "Founded data: {title} \nlink: {link} \ndesctiption: {desc}".format(
-                #         title=data[0]["title"],
-                #         link=data[0]["link"],
-                #         desc=data[0]["snippet"],
-                #     )
-                # )
+                data = search_info((class_label))
+                logger.info(
+                    "Founded data: {title} \nlink: {link} \ndescription: {desc}".format(
+                        title=data[0]["title"],
+                        link=data[0]["link"],
+                        desc=data[0]["snippet"],
+                    )
+                )
 
             annotated_frame = results[0].plot()
 
