@@ -1,6 +1,6 @@
 """Run project with object detection and searhing info."""
 
-import os
+from ultralytics import YOLO
 
 from services.detector import Detector
 from util.logger import configure_logger
@@ -11,21 +11,12 @@ logger = configure_logger(__name__)
 def main() -> None:
     """Launch objects detection on video."""
 
-    video_path = "unused/test_videos/streets_nyc.mp4"  # 0 - vebcam
-    config_path = os.path.join(
-        "model_data",
-        "ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt",
-    )
-    model_path = os.path.join("model_data", "frozen_inference_graph.pb")
-    classes_path = os.path.join("model_data", "coco.names")
+    video_path = "test_videos/streets_nyc.mp4"  # 0 - vebcam
+    logger.info("video prepared")
+    model = YOLO("yolo/yolov5x6u.pt")
+    logger.info("model loaded")
 
-    logger.info("settings loaded")
-    detector = Detector(
-        video_path=video_path,
-        config_path=config_path,
-        model_path=model_path,
-        classes_path=classes_path,
-    )
+    detector = Detector(model=model, video_path=video_path)
     detector.on_video()
 
 
