@@ -17,5 +17,7 @@ __pycache__
 # Mypy cache
 .mypy_cache/
 
-/data
+# Folders
 /unused
+/test_videos
+/yolo
