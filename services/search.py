@@ -1,3 +1,5 @@
+"""Search module."""
+
 import requests
 
 from base.settings import SETTINGS

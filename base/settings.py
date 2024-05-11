@@ -1,4 +1,4 @@
-"""Service settings."""
+"""System settings."""
 
 from dotenv import find_dotenv, load_dotenv
 from pydantic_settings import BaseSettings
@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     google_url: str = "https://www.googleapis.com/customsearch/v1"
     api_key: str
     cx_code: str
+    model: str
 
 
 SETTINGS = Settings()
