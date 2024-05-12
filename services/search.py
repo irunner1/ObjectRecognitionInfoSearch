@@ -1,5 +1,7 @@
 """Search module."""
 
+from functools import lru_cache
+
 import requests
 
 from base.settings import SETTINGS
@@ -8,6 +10,7 @@ from util.logger import configure_logger
 logger = configure_logger(__name__)
 
 
+@lru_cache(maxsize=128, typed=False)
 def search_info(object_name: str) -> dict | None:
     """Search data with Google api.
 
