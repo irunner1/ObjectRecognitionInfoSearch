@@ -14,10 +14,10 @@ class Detector:
 
     Args:
         self.model: yolo model name
-        self.video_path: Path to video. 0 - vebcam
+        self.video_path: Path to video or 0 for vebcam
     """
 
-    def __init__(self, model_name: str, video_path: str) -> None:
+    def __init__(self, model_name: str, video_path: str | int) -> None:
         self.model = self.load_model(model_name=model_name)
         self.video_path = video_path
 
@@ -54,12 +54,21 @@ class Detector:
                 break
 
             results = self.model(frame)
-
+            class_names = set()
             for box in results[0].boxes:
                 class_id = int(box.cls)
                 class_label = results[0].names[class_id]
+
                 logger.info(f"Detected class: {class_label}")
-                data = search_info((class_label))
+                class_names.add(class_label)
+
+            annotated_frame = results[0].plot()
+
+            cv2.imshow("YOLO Inference", annotated_frame)
+
+            logger.info(f"objects in frame: {class_names}")
+            for cl in class_names:
+                data = search_info(object_name=f"what is a {cl}")
                 logger.info(
                     "Founded data: {title} \nlink: {link} \ndescription: {desc}".format(
                         title=data[0]["title"],
@@ -67,10 +76,6 @@ class Detector:
                         desc=data[0]["snippet"],
                     )
                 )
-
-            annotated_frame = results[0].plot()
-
-            cv2.imshow("YOLO Inference", annotated_frame)
 
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 logger.info("detection interrupted")
