@@ -1,7 +1,7 @@
 """Run project with object detection and searhing info."""
 
 from base.settings import SETTINGS
-from services.detector import Detector
+from modules.detector import Detector
 from util.logger import configure_logger
 
 logger = configure_logger(__name__)

@@ -3,7 +3,7 @@
 import cv2
 from ultralytics import YOLO
 
-from services.search import search_info
+from modules.search import search_info
 from util.logger import configure_logger
 
 logger = configure_logger(__name__)
@@ -66,16 +66,18 @@ class Detector:
 
             cv2.imshow("YOLO Inference", annotated_frame)
 
-            logger.info(f"objects in frame: {class_names}")
+            logger.info(f"Objects in frame: {class_names}")
             for cl in class_names:
                 data = search_info(object_name=f"what is a {cl}")
-                logger.info(
-                    "Founded data: {title} \nlink: {link} \ndescription: {desc}".format(
-                        title=data[0]["title"],
-                        link=data[0]["link"],
-                        desc=data[0]["snippet"],
+                if "title" in data[0]:
+                    logger.info(
+                        "Founded data: {class_name} \n{title} \nlink: {link} \ndescription: {desc}".format(
+                            class_name=cl,
+                            title=data[0]["title"],
+                            link=data[0]["link"],
+                            desc=data[0]["snippet"],
+                        )
                     )
-                )
 
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 logger.info("detection interrupted")

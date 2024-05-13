@@ -1,6 +1,7 @@
 # ObjectRecognitionInfoSearch
 
-System for object detection and find information about detected object
+System for object detection and find information about detected object<br>
+Система для распознавания объектов на видео и поиска информации, связанной с найденными объектами
 
 ## Установка и запуск
 
@@ -23,8 +24,15 @@ model_name='yolov5x6u'
 ```
 
 
-`api_key` - ключ от google api для того, чтобы ответ приходил в json формате
-`cx_code` - ключ поисковой системы google, ее нужно создать для своей системы
+- `api_key` - ключ от google api для того, чтобы ответ приходил в json формате
+- `cx_code` - ключ поисковой системы google, ее нужно создать для своей системы
+
+Для запуска системы нужно указать путь до видео или 0 для веб-камеры в `main.py`
+
+```python3
+video_path = "test_videos/streets_nyc.mp4"  # - path to video
+video_path = 0  # - vebcam
+```
 
 ## Работа системы
 
@@ -38,5 +46,5 @@ model_name='yolov5x6u'
 Пример работы системы:
 
 <p align="center">
-<img src="https://sun9-30.userapi.com/impg/hU77UywfykD7GL7HFunE-XQI41BfpOS8EuhOVA/fokJqRaS4jY.jpg?size=892x783&quality=96&sign=53a1e33b9d687232bb6867a2e4c7e9a8&type=album" alt="drawing" width="700"/>
+    <img src="https://sun9-30.userapi.com/impg/hU77UywfykD7GL7HFunE-XQI41BfpOS8EuhOVA/fokJqRaS4jY.jpg?size=892x783&quality=96&sign=53a1e33b9d687232bb6867a2e4c7e9a8&type=album" alt="drawing" width="700"/>
 </p>

@@ -38,5 +38,4 @@ def search_info(object_name: str) -> dict | None:
         return None
 
     data = response.json()
-
-    return data["items"]
+    return data["items"] if "items" in data else data
