@@ -69,14 +69,15 @@ class Detector:
             logger.info(f"Objects in frame: {class_names}")
             for cl in class_names:
                 data = search_info(object_name=f"what is a {cl}")
-                logger.info(
-                    "Founded data: {class_name} \n{title} \nlink: {link} \ndescription: {desc}".format(
-                        class_name=cl,
-                        title=data[0]["title"],
-                        link=data[0]["link"],
-                        desc=data[0]["snippet"],
+                if "title" in data[0]:
+                    logger.info(
+                        "Founded data: {class_name} \n{title} \nlink: {link} \ndescription: {desc}".format(
+                            class_name=cl,
+                            title=data[0]["title"],
+                            link=data[0]["link"],
+                            desc=data[0]["snippet"],
+                        )
                     )
-                )
 
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 logger.info("detection interrupted")
